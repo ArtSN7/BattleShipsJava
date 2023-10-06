@@ -22,21 +22,23 @@ class Player{
 		    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 		}; // player's field with ships
 
-	int[][] field_1 = new int[10][10]; // player 1 field
-
-	int[][] field_2 = new int[10][10]; // player 2 field
-
-
-
 
     public Player(int number){
 
 		this.player_number = number; // declaring what number is our player
-		
+
 
 		System.out.println("\n---------------------------------------------------------------------------");
 		System.out.println("\n\nHello, Player_" + player_number); // saying hello to player
 
+	}
+
+	public static void cleaning_field(){
+		for (int i = 0; i < 10; i++){
+			for (int j = 0; j < 10; j++){
+				field[i][j] = 0;
+			}
+		}
 	}
 
 	
@@ -179,19 +181,30 @@ class Player{
 
 public class main_code {
 
+	static int[][] field_1 = new int[10][10]; // player 1 field
+
+	static int[][] field_2 = new int[10][10]; // player 2 field
+
+
 	public static void setting_up(){
 
 		Player player_1 = new Player(1); // creating player_1
 
 		player_1.CreateFieldForPlayers(); // creating field for player 1 
 
+		field_1 = player_1.field;
 
 		System.out.println("\n---------------------------------------------------------------------------");
 		System.out.println("\nThat's your field\n\n");
 
 		for (int i = 0; i < 10; i++){
-			System.out.println(Arrays.toString(player_1.field[i]));
+			System.out.println(Arrays.toString(field_1[i]));
 		}
+
+
+		// cleaning up the field 
+		player_1.cleaning_field();
+
 
 		System.out.println("\n---------------------------------------------------------------------------");
 		System.out.println("\nLet's move to another player");
@@ -200,15 +213,21 @@ public class main_code {
 
 		player_2.CreateFieldForPlayers(); // creating field for player 2 
 
+		field_2 = player_2.field;
 
 		System.out.println("\n---------------------------------------------------------------------------");
 		System.out.println("\nThat's your field\n\n");
 
 		for (int i = 0; i < 10; i++){
-			System.out.println(Arrays.toString(player_2.field[i]));
+			System.out.println(Arrays.toString(field_2[i]));
 		}
 
+		// cleaning up the field 
+		player_2.cleaning_field();
+
 	}
+
+
 
 	public static void printing_rules(){
 		System.out.print("Dear players,\n\nI am happy to see you in my game! Here you can read rules:\n\n - Each of you has a 10*10 field where u can set up 5 ships\n - Every ship must be in a single cell\n - Players are shooting in an order, but if someone hit, he has a chance to shoot one more time until he misses\n - Game finishes, when there are no ships on one of the field");
@@ -217,6 +236,8 @@ public class main_code {
 		System.out.print("\n\nLet's start!\n"); // introducing our game
 	}
 
+	
+	
 	
 	public static void main(String[] args) {
 
