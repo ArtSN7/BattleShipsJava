@@ -163,11 +163,6 @@ class Player{
 
 		}
 
-
-		//for (int i = 0; i < 10; i++){
-		//	System.out.println(Arrays.toString(field[i]));
-		//}
-
 	}
 
 }
