@@ -3,53 +3,29 @@ import java.util.Scanner;
 
 
 
-class Player{
+public class main_code {
 
-	int player_number; // player's number
+	static int[][] field_1 = new int[10][10]; // player 1 field with ships
 
-	int number_of_alive_ships; // number of ships which are alive
-
-	static int[][] field = {
-			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-	        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-		}; // player's field with ships
+	static int[][] field_2 = new int[10][10]; // player 2 field with ships
 
 
-    public Player(int number){
-
-		this.player_number = number; // declaring what number is our player
-
-
-		System.out.println("\n---------------------------------------------------------------------------");
-		System.out.println("\n\nHello, Player_" + player_number); // saying hello to player
-
-	}
-
-	public static void cleaning_field(){
-		for (int i = 0; i < 10; i++){
-			for (int j = 0; j < 10; j++){
-				field[i][j] = 0;
-			}
-		}
-	}
-
-	
-
-
-	public static boolean checking_coords(int row , int col){
+	public static boolean checking_coords(int row , int col, int player){
 
 		row = row - 1;
 		col = col - 1;
 
 		if (row >= 0 && row <= 9 && col >= 0 && col <= 9){ // limits of coords
+
+			int[][] field;
+
+			if (player == 1){
+				field = field_1;
+			}
+			else{
+				field = field_2;
+			}
+
 
 			if (row == 0){
 				if (col == 0){
@@ -121,7 +97,7 @@ class Player{
 	}
 
 
-	public static void CreateFieldForPlayers(){
+	public static void CreateFieldForPlayers(int player){
 
 		int row, col;
 		boolean check; 
@@ -143,8 +119,15 @@ class Player{
 
             System.out.println("\n\nInput col for the ship num " + i + ":");
 			col = input.nextInt();
+
+			if (player == 1){
+				check = checking_coords(row, col, 1);
+			}
+			else{
+				check = checking_coords(row, col, 2);
+			}
 			
-			check = checking_coords(row, col);
+			
 
 
 			while (check == false){
@@ -156,93 +139,33 @@ class Player{
                 System.out.println("\n\nInput col for the ship num " + i + ":");
 				col = input.nextInt();
 
-				check = checking_coords(row, col);
+				if (player == 1){
+				    check = checking_coords(row, col, 1);
+			    }
+			    else{
+				    check = checking_coords(row, col, 2);
+			    }
 			}
 
-			field[row - 1][col - 1] = 1;
+			if (player == 1){
+				field_1[row - 1][col - 1] = 1;
+			}
+			else{
+				field_2[row - 1][col - 1] = 1;
+			}
+
+
+			
 
 		}
 
 	}
-
-}
-
-
-
-
-
-
-
-
-public class main_code {
-
-	static int whos_turn = 1; // value that shows who is shooting ( 1- first player, 2 - second player )
-
-	static int num_of_shoots_1 = 0;
-
-	static int num_of_shoots_2 = 0;
-
-	static int number_of_alive_ships_1 = 5;
-
-	static int number_of_alive_ships_2 = 5;
-
-	static int[][] field_1 = new int[10][10]; // player 1 field with ships
-
-	static int[][] field_2 = new int[10][10]; // player 2 field with ships
-
-	static int[][] field_shoots_1 = new int[10][10]; // player 1 field where it is shown all his shoots
-
-	static int[][] field_shoots_2 = new int[10][10]; // player 2 field where it is shown all his shoots
-
-
-
-	public static void setting_up(){
-
-		Player player_1 = new Player(1); // creating player_1
-
-		player_1.CreateFieldForPlayers(); // creating field for player 1 
-
-		field_1 = player_1.field;
-
-		System.out.println("\n---------------------------------------------------------------------------");
-		System.out.println("\nThat's your field\n\n");
-
-		for (int i = 0; i < 10; i++){
-			System.out.println(Arrays.toString(field_1[i]));
-		}
-
-
-		// cleaning up the field 
-		player_1.cleaning_field();
-
-
-		System.out.println("\n---------------------------------------------------------------------------");
-		System.out.println("\nLet's move to another player");
-
-		Player player_2 = new Player(2); // creating player_2
-
-		player_2.CreateFieldForPlayers(); // creating field for player 2 
-
-		field_2 = player_2.field;
-
-		System.out.println("\n---------------------------------------------------------------------------");
-		System.out.println("\nThat's your field\n\n");
-
-		for (int i = 0; i < 10; i++){
-			System.out.println(Arrays.toString(field_2[i]));
-		}
-
-		// cleaning up the field 
-		player_2.cleaning_field();
-
-	}
-
 
 
 	public static void printing_rules(){
 		System.out.print("Dear players,\n\nI am happy to see you in my game! Here you can read rules:\n\n - Each of you has a 10*10 field where u can set up 5 ships\n - Every ship must be in a single cell\n - Players are shooting in an order, but if someone hit, he has a chance to shoot one more time until he misses\n - Game finishes, when there are no ships on one of the field");
         
-		System.out.println("\n---------------------------------------------------------------------------");
+		System.out.println("\n\n---------------------------------------------------------------------------");
 		System.out.print("\n\nLet's start!\n"); // introducing our game
 	}
 
@@ -255,11 +178,59 @@ public class main_code {
 
 	}
 	
+	
 	public static void main(String[] args) {
+		int whos_turn = 1; // value that shows who is shooting ( 1- first player, 2 - second player )
+
+	    int num_of_shoots_1 = 0;
+
+	    int num_of_shoots_2 = 0;
+
+	    int number_of_alive_ships_1 = 5;
+
+	    int number_of_alive_ships_2 = 5;
+
+
+	    int[][] field_shoots_1 = new int[10][10]; // player 1 field where it is shown all his shoots
+
+	    int[][] field_shoots_2 = new int[10][10]; // player 2 field where it is shown all his shoots
 
 		printing_rules(); // printing rules
 
-		setting_up(); // setting up ships on the field
+		//setting_up(); // setting up ships on the field
+
+		System.out.println("\n---------------------------------------------------------------------------");
+		System.out.println("\nHello, Player 1");
+
+
+		CreateFieldForPlayers(1); // creating field for player 1 
+
+
+		System.out.println("\n---------------------------------------------------------------------------");
+		System.out.println("\nThat's your field\n\n");
+
+		for (int i = 0; i < 10; i++){
+			System.out.println(Arrays.toString(field_1[i]));
+		}
+
+
+
+		System.out.println("\n---------------------------------------------------------------------------");
+		System.out.println("\nLet's move to another player");
+		System.out.println("\nHello, Player 2");
+
+
+		CreateFieldForPlayers(2); // creating field for player 2 
+
+		System.out.println("\n---------------------------------------------------------------------------");
+		System.out.println("\nThat's your field\n\n");
+
+		for (int i = 0; i < 10; i++){
+			System.out.println(Arrays.toString(field_2[i]));
+		}
+
+
+
 
         // main code that do the game
         System.out.println("\n---------------------------------------------------------------------------");
@@ -307,11 +278,14 @@ public class main_code {
 				if (field_2[row_c - 1][col_c - 1] == 1){ // if user killed a ship
 
 					System.out.println("\nYou have killed a ship! You have another try.");
-					number_of_alive_ships_2 --;
+					System.out.println("\n---------------------------------------------------------------------------");
+					number_of_alive_ships_2 = number_of_alive_ships_2 - 1;
+					num_of_shoots_1 = num_of_shoots_1 + 1;
 
 				}
 				else{
 					System.out.println("\nYou have missed!");
+					System.out.println("\n---------------------------------------------------------------------------");
 
 					if (whos_turn == 1){ // changing player
 						whos_turn = 2;
@@ -331,7 +305,8 @@ public class main_code {
 				if (field_1[row_c - 1][col_c - 1] == 1){ // if user killed a ship
 
 					System.out.println("\nYou have killed a ship! You have another try.");
-					number_of_alive_ships_1 --;
+					number_of_alive_ships_1 = number_of_alive_ships_1 - 1;
+					num_of_shoots_2 = num_of_shoots_2 + 1;
 
 				}
 				else{
@@ -347,13 +322,6 @@ public class main_code {
 				}
 
 			}
-
-
-
-
-
-
-
 		}
 
 		//after the game
