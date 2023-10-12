@@ -5,11 +5,71 @@ import java.util.Arrays;
   
 class Game{
 
+	public static boolean checking_shot_cords(int row, int col){ // checking that coordinates of shot are alright
+		if (row >= 0 && row <= 9 && col >= 0 && col <= 9){
+			return true;
+		}
+		return false;
+
+	}
+
     public static void printing_rules(){
 	    System.out.print("Dear players,\n\nI am happy to see you in my game! Here you can read rules:\n\n - Each of you has a 10*10 field where u can set up 5 ships\n - Every ship must be in a single cell\n - Players are shooting in an order, but if someone hit, he has a chance to shoot one more time until he misses\n - Game finishes, when there are no ships on one of the field");
         
 	    System.out.println("\n\n---------------------------------------------------------------------------");
 	    System.out.print("\n\nLet's start!\n"); // introducing our game
+		System.out.println("\n\n---------------------------------------------------------------------------");
+	}
+
+	public static void game_against_ai(){ // game against AI ( when u play alone )
+
+	}
+
+	public static void game_against_player(){ // game with 2 players
+
+		Player player_1 = new Player();
+
+        Player player_2 = new Player();
+
+
+		System.out.println("\n---------------------------------------------------------------------------");
+		System.out.println("\nHello, Player 1");
+
+
+		player_1.CreateFieldForPlayers(); // creating field for player 1
+
+
+		System.out.println("\n---------------------------------------------------------------------------");
+		System.out.println("\nThat's your field\n\n");
+
+		for (int i = 0; i < 10; i++){ // printing player_1's field
+			System.out.println(Arrays.toString(player_1.field[i]));
+		}
+
+
+
+		System.out.println("\n---------------------------------------------------------------------------");
+		System.out.println("\nLet's move to another player");
+		System.out.println("\nHello, Player 2");
+
+
+		player_2.CreateFieldForPlayers(); // creating field for player 2
+
+		System.out.println("\n---------------------------------------------------------------------------");
+		System.out.println("\nThat's your field\n\n");
+
+		for (int i = 0; i < 10; i++){ // printing player_2's field
+			System.out.println(Arrays.toString(player_2.field[i]));
+		}
+
+
+        // main code that do the game
+        System.out.println("\n---------------------------------------------------------------------------");
+		System.out.println("\nWe are ready to start playing! Good luck players!\n\n");
+		System.out.println("\n---------------------------------------------------------------------------");
+
+
+        // start from 241 line of code
 	}
 
 }
@@ -161,20 +221,32 @@ class Player{
 public class new_code{
     public static void main(String[] args) {
 
-        //Game game = new Game();
+		int value;
 
-        //game.printing_rules();
+		Scanner input = new Scanner(System.in);
 
-        Player player_1 = new Player();
+        Game game = new Game();
 
-        Player player_2 = new Player();
+        game.printing_rules();
 
-        player_1.CreateFieldForPlayers();
+		System.out.println("\n\n---------------------------------------------------------------------------");
+		System.out.println("Input 1 if you want to play alone against AI / Input 2 if you want to play with a friend");
 
-        player_2.CreateFieldForPlayers();
+		value = input.nextInt();
 
-        // player_1.field - getting player's field ( they are different for players )
+		while (value != 1 || value != 2){
+			System.out.println("\n\nPlease, try again");
+			System.out.println("Input 1 if you want to play alone against AI / Input 2 if you want to play with a friend");
 
+			value = input.nextInt();
+		}
+
+		if (value == 1){
+			game.game_against_ai();
+		}
+		else{
+			game.game_against_player();
+		}
 
 
     }
