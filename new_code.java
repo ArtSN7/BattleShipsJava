@@ -13,19 +13,27 @@ class Game{
 
 	}
 
-    public static void printing_rules(){
-	    System.out.print("Dear players,\n\nI am happy to see you in my game! Here you can read rules:\n\n - Each of you has a 10*10 field where u can set up 5 ships\n - Every ship must be in a single cell\n - Players are shooting in an order, but if someone hit, he has a chance to shoot one more time until he misses\n - Game finishes, when there are no ships on one of the field");
+    
+	
+	public static void printing_rules(){
+	    System.out.print("Dear players,\n\nI am happy to see you in my game! Here you can read rules:\n\n - Each of you has a 10*10 field where u can set up 5 ships\n\n - Every ship must be in a single cell\n\n - Players are shooting one after another, but if someone kills a ship, he has a chance to shoot one more time until he misses\n\n - Game finishes, when there are no ships on one of the field");
         
 	    System.out.println("\n\n---------------------------------------------------------------------------");
 	    System.out.print("\n\nLet's start!\n"); // introducing our game
 		System.out.println("\n\n---------------------------------------------------------------------------");
 	}
 
+	
+	
 	public static void game_against_ai(){ // game against AI ( when u play alone )
 
 	}
 
+	
+	
 	public static void game_against_player(){ // game with 2 players
+
+		int whos_turn = 1;
 
 		Player player_1 = new Player();
 
@@ -69,7 +77,127 @@ class Game{
 		System.out.println("\n---------------------------------------------------------------------------");
 
 
-        // start from 241 line of code
+		Scanner input = new Scanner(System.in);
+		int row_c; // coordinates of the shooting
+	    int col_c; // coordinates of the shooting
+		boolean check_shoot = false;
+
+		//playing game
+
+		while (player_1.number_of_alive_ships > 0 && player_2.number_of_alive_ships > 0){ // game is being played until one of the players loses all his ships
+			
+			System.out.println("\n---------------------------------------------------------------------------");
+
+			System.out.println("This is your shots (1 means that u have tried this field.)");
+
+			for (int i = 0; i < 10; i++){
+			    System.out.println(Arrays.toString(player_1.field_shoots[i]));
+			}
+
+
+			System.out.println("\nPlayer" + whos_turn + " , input  a row coordinate of the target ( 1 - 10): \n");
+			row_c = input.nextInt();
+			System.out.println("\nPlayer" + whos_turn + " , input  a col coordinate of the target ( 1 - 10): \n");
+			col_c = input.nextInt();
+
+			check_shoot = checking_shot_cords(row_c - 1, col_c - 1);
+
+			while (check_shoot == false){
+				System.out.println("\n---------------------------------------------------------------------------");
+				System.out.println("Try again!");
+			    System.out.println("\nPlayer" + whos_turn + " , input  a row coordinate of the target ( 1 - 10): \n");
+			    row_c = input.nextInt();
+			    System.out.println("\nPlayer" + whos_turn + " , input  a col coordinate of the target ( 1 - 10): \n");
+			    col_c = input.nextInt();
+				check_shoot = checking_shot_cords(row_c - 1, col_c - 1);
+			}
+
+
+			// checking results of the turn 
+
+			if (whos_turn == 1){
+
+				player_1.field_shoots[row_c - 1][col_c - 1] = 1;
+
+				if (player_2.field[row_c - 1][col_c - 1] == 1){ // if user killed a ship
+
+					System.out.println("\n---------------------------------------------------------------------------");
+					System.out.println("\nBAAAAM!!!\n");
+					System.out.println("\nYou have killed a ship! You have another try.");
+					System.out.println("\n---------------------------------------------------------------------------");
+
+					player_2.number_of_alive_ships = player_2.number_of_alive_ships - 1;
+					player_1.num_of_shoots = player_1.num_of_shoots+ 1;
+
+				}
+				else{
+					
+					System.out.println("\n---------------------------------------------------------------------------");
+					System.out.println("\nOOOOPSSS\n");
+					System.out.println("\nYou have missed!");
+					System.out.println("\n---------------------------------------------------------------------------");
+
+					if (whos_turn == 1){ // changing player
+						whos_turn = 2;
+					}
+					else{
+						whos_turn = 1;
+					}
+
+				}
+
+
+			}
+			else{
+
+				player_2.field_shoots[row_c - 1][col_c - 1] = 1;
+
+				if (player_1.field[row_c - 1][col_c - 1] == 1){ // if user killed a ship
+
+					System.out.println("\n---------------------------------------------------------------------------");
+					System.out.println("\nBAAAAM!!!\n");
+					System.out.println("\nYou have killed a ship! You have another try.");
+					System.out.println("\n---------------------------------------------------------------------------");
+
+					player_1.number_of_alive_ships = player_1.number_of_alive_ships - 1;
+					player_2.num_of_shoots = player_2.num_of_shoots + 1;
+
+				}
+				else{
+					System.out.println("\n---------------------------------------------------------------------------");
+					System.out.println("\nOOOOPSSS\n");
+					System.out.println("\nYou have missed!");
+					System.out.println("\n---------------------------------------------------------------------------");
+
+					if (whos_turn == 1){ // changing player
+						whos_turn = 2;
+					}
+					else{
+						whos_turn = 1;
+					}
+
+				}
+
+			}
+		}
+
+		//after the game printing results
+
+		        
+		System.out.println("\n---------------------------------------------------------------------------");
+		System.out.println("\nThe game is over!\n\nHere's some info:\n");
+		System.out.println("\n---------------------------------------------------------------------------");
+		
+		if (player_1.number_of_alive_ships == 0){
+			System.out.println("\nThe winner is Player 2");
+			System.out.println("\nNumber of his shots: " + player_2.num_of_shoots);
+		}
+		else{
+			System.out.println("\nThe winner is player 1");
+			System.out.println("\nNumber of his shots: " + player_1.num_of_shoots);
+		}
+
+
 	}
 
 }
@@ -77,6 +205,8 @@ class Game{
 class Player{
 
     int[][] field = new int[10][10];
+
+	int[][] field_shoots = new int[10][10];
 
     int num_of_shoots = 0;
 
@@ -218,7 +348,7 @@ class Player{
 }
 
 
-public class new_code{
+public class new_code{ // main part of the code
     public static void main(String[] args) {
 
 		int value;
@@ -230,22 +360,25 @@ public class new_code{
         game.printing_rules();
 
 		System.out.println("\n\n---------------------------------------------------------------------------");
-		System.out.println("Input 1 if you want to play alone against AI / Input 2 if you want to play with a friend");
+		System.out.println("Input 1 if you want to play alone against AI   |     Input 2 if you want to play with a friend");
 
-		value = input.nextInt();
+		value = input.nextInt(); // user pick type of game
 
-		while (value != 1 || value != 2){
+		System.out.println("\n\n---------------------------------------------------------------------------");
+
+		while (value != 1 && value != 2){ // picks until value is 1 or 2
 			System.out.println("\n\nPlease, try again");
-			System.out.println("Input 1 if you want to play alone against AI / Input 2 if you want to play with a friend");
+			System.out.println(" ");
+			System.out.println("Input 1 if you want to play alone against AI   |     Input 2 if you want to play with a friend");
 
 			value = input.nextInt();
 		}
 
 		if (value == 1){
-			game.game_against_ai();
+			game.game_against_ai(); // starting game with AI
 		}
 		else{
-			game.game_against_player();
+			game.game_against_player(); // starting game with 2 player
 		}
 
 
