@@ -27,6 +27,9 @@ class Game{
 	
 	public static void game_against_ai(){ // game against AI ( when u play alone )
 
+		// create the field using random library 
+
+		// player starts first, then AI shoots randomly until he won't shoot new point ( need to check shot_field )
 	}
 
 	
