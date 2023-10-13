@@ -1,8 +1,177 @@
 import java.util.Scanner;
 import java.util.Arrays;
+import java.util.Random;
 
 
   
+
+class AI{
+
+	    
+	int[][] field = new int[10][10];
+
+	int[][] field_shoots = new int[10][10];
+
+    int num_of_shoots = 0;
+
+	int number_of_alive_ships = 5;
+
+
+	boolean shot_check(int row, int col){
+
+		if (field_shoots[row][col] == 1){
+			return false;
+		}
+
+		return true;
+
+	}
+
+
+	int[] DoShot(){ // shooting programm for AI
+
+		int row;
+		int col;
+		boolean check;
+
+		Random rand = new Random();
+
+		row = rand.nextInt(10);
+		col = rand.nextInt(10);
+
+		check = shot_check(row, col);
+
+		while (check == false){
+
+
+			row = rand.nextInt(10);
+			col = rand.nextInt(10);
+
+			check = shot_check(row, col);
+
+		}
+
+		field_shoots[row][col] = 1;
+
+		int[] ret = {row, col};
+
+		return ret;
+
+
+	}
+
+
+	void CreateFieldAI(){ // creating field for AI
+
+		int row;
+		int col;
+		boolean check;
+
+		Random rand = new Random();
+
+		for (int i = 0; i <= 4; i++){
+
+			row = rand.nextInt(10);
+			col = rand.nextInt(10);
+
+			check = checking_coords(row, col);
+
+			while (check == false){
+				row = rand.nextInt(10);
+				col = rand.nextInt(10);
+				check = checking_coords(row, col);
+			}
+
+			field[row][col] = 1;
+		}
+
+	}
+
+
+
+	boolean checking_coords(int row , int col){
+
+		if (row >= 0 && row <= 9 && col >= 0 && col <= 9){ // limits of coords
+
+
+			if (row == 0){
+				if (col == 0){
+					if (field[row][col] == 0 && field[row][col + 1] == 0 && field[row + 1][col] == 0 && field[row + 1][col + 1] == 0){
+						return true;
+					}
+				}
+
+				if (col == 9){
+					if (field[row][col] == 0 && field[row][col - 1] == 0 && field[row + 1][col] == 0 && field[row + 1][col - 1] == 0){
+						return true;
+					}
+				}
+
+				if (col != 9 && col != 0){
+					if (field[row][col] == 0 && field[row][col + 1] == 0 && field[row][col - 1] == 0 && field[row + 1][col] == 0 && field[row + 1][col + 1] == 0 && field[row + 1][col - 1] == 0){
+						return true;
+					}
+				}
+
+			}
+
+			if (row == 9){
+
+				if (col == 0){
+					if (field[row][col] == 0 && field[row][col + 1] == 0 && field[row - 1][col] == 0 && field[row - 1][col + 1] == 0){
+						return true;
+					}
+				}
+
+				if (col == 9){
+					if (field[row][col] == 0 && field[row][col - 1] == 0 && field[row - 1][col] == 0 && field[row - 1][col - 1] == 0){
+						return true;
+					}
+				}
+
+				if (col != 9 && col != 0){
+					if (field[row][col] == 0 && field[row][col + 1] == 0 && field[row][col - 1] == 0 && field[row - 1][col] == 0 && field[row - 1][col + 1] == 0 && field[row - 1][col - 1] == 0){
+						return true;
+					}
+				}
+
+			}
+
+			if (row != 9 && row != 0){
+
+				if (col == 0){
+					if (field[row][col] == 0 && field[row][col + 1] == 0 && field[row - 1][col] == 0 && field[row - 1][col + 1] == 0 && field[row + 1][col] == 0 && field[row + 1][col + 1] == 0){
+						return true;
+					}
+				}
+
+				if (col == 9){
+					if (field[row][col] == 0 && field[row][col - 1] == 0 && field[row - 1][col] == 0 && field[row - 1][col - 1] == 0 && field[row + 1][col] == 0 && field[row + 1][col - 1] == 0){
+						return true;
+					}
+				}
+
+				if (col != 9 && col != 0){
+					if (field[row][col] == 0 && field[row][col + 1] == 0 && field[row][col - 1] == 0 && field[row + 1][col] == 0 && field[row + 1][col + 1] == 0 && field[row + 1][col - 1] == 0 && field[row - 1][col] == 0 && field[row - 1][col + 1] == 0 && field[row - 1][col - 1] == 0){
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+		
+	}
+
+
+
+
+
+}
+
+
+
+
 class Game{
 
 	public static boolean checking_shot_cords(int row, int col){ // checking that coordinates of shot are alright
@@ -27,9 +196,172 @@ class Game{
 	
 	public static void game_against_ai(){ // game against AI ( when u play alone )
 
-		// create the field using random library 
+		int whos_turn = 1;
+
+		int[] values = {0, 0};
+
+		//setting up a user stuff
+
+		Player player_1 = new Player();
+
+		System.out.println("\n---------------------------------------------------------------------------");
+		System.out.println("\nHello, Player");
+
+		player_1.CreateFieldForPlayers(); // creating field for player 1
+
+		System.out.println("\n---------------------------------------------------------------------------");
+		System.out.println("\nThat's your field\n\n");
+
+		for (int i = 0; i < 10; i++){ // printing player_1's field
+			System.out.println(Arrays.toString(player_1.field[i]));
+		}
+
+
+		System.out.println("\n---------------------------------------------------------------------------");
+
+		//finishing doing stuff with user
+
+
+
+		//starting setting up an AI
+
+		System.out.println("\nSetting up AI...\n");
+		System.out.println("\nGive us a second...\n");
+		System.out.println("\n---------------------------------------------------------------------------");
+
+		AI ai = new AI();
+
+		ai.CreateFieldAI(); // creating field for AI
+
+		
+
+
 
 		// player starts first, then AI shoots randomly until he won't shoot new point ( need to check shot_field )
+		// main code that do the game
+        System.out.println("\n---------------------------------------------------------------------------");
+		System.out.println("\nWe are ready to start playing! Good luck players!\n\n");
+		System.out.println("\n---------------------------------------------------------------------------");
+
+
+		Scanner input = new Scanner(System.in);
+
+		int row_c; // coordinates of the shooting
+	    int col_c; // coordinates of the shooting
+
+		boolean check_shoot = false;
+
+
+		//playing game
+
+		while (player_1.number_of_alive_ships > 0 && ai.number_of_alive_ships > 0){ // game is being played until one of the players loses all his ships
+			
+			System.out.println("\n---------------------------------------------------------------------------");
+
+			if (whos_turn == 1){
+
+				System.out.println("This is your shots (1 means that u have tried this field.)");
+
+				for (int i = 0; i < 10; i++){
+			    	System.out.println(Arrays.toString(player_1.field_shoots[i]));
+				}
+
+				System.out.println("\nPlayer" + whos_turn + " , input  a row coordinate of the target ( 1 - 10): \n");
+			    row_c = input.nextInt();
+
+				System.out.println("\nPlayer" + whos_turn + " , input  a col coordinate of the target ( 1 - 10): \n");
+				col_c = input.nextInt();
+
+				check_shoot = checking_shot_cords(row_c - 1, col_c - 1);
+
+
+
+				while (check_shoot == false){
+					System.out.println("\n---------------------------------------------------------------------------");
+					System.out.println("Try again!");
+			    	System.out.println("\nPlayer" + whos_turn + " , input  a row coordinate of the target ( 1 - 10): \n");
+			    	row_c = input.nextInt();
+			    	System.out.println("\nPlayer" + whos_turn + " , input  a col coordinate of the target ( 1 - 10): \n");
+			    	col_c = input.nextInt();
+					check_shoot = checking_shot_cords(row_c - 1, col_c - 1);
+				}
+
+				// checking results of shot
+
+				player_1.field_shoots[row_c - 1][col_c - 1] = 1;
+
+				if (ai.field[row_c - 1][col_c - 1] == 1){ // if user killed a ship
+
+					System.out.println("\n---------------------------------------------------------------------------");
+					System.out.println("\nBAAAAM!!!\n");
+					System.out.println("\nYou have killed a ship! You have another try.");
+					System.out.println("\n---------------------------------------------------------------------------");
+
+					ai.number_of_alive_ships = ai.number_of_alive_ships - 1;
+					player_1.num_of_shoots = player_1.num_of_shoots+ 1;
+
+				}
+				else{
+					
+					System.out.println("\n---------------------------------------------------------------------------");
+					System.out.println("\nOOOOPSSS\n");
+					System.out.println("\nYou have missed!");
+					System.out.println("\n---------------------------------------------------------------------------");
+
+					whos_turn = 2;
+				}
+
+				// finishing checking result of the shot
+			}
+			else{ // AI is shooting
+
+				System.out.println("Now it's time for AI to have a shot! Be scared of power of random!");
+
+				values = ai.DoShot(); // coords of ai shot
+
+				if (player_1.field[values[0]][values[1]] == 1){ // if ai kills someone
+
+					System.out.println("\n---------------------------------------------------------------------------");
+					System.out.println("\nBAAAAM!!!\n");
+					System.out.println("\nAI has killed a ship! He will shoot again.");
+					System.out.println("\n---------------------------------------------------------------------------");
+
+					player_1.number_of_alive_ships = player_1.number_of_alive_ships - 1;
+					ai.num_of_shoots = ai.num_of_shoots + 1;
+				}
+				else{
+				    System.out.println("\n---------------------------------------------------------------------------");
+					System.out.println("\nOOOOPSSS\n");
+					System.out.println("\nYou have missed!");
+					System.out.println("\n---------------------------------------------------------------------------");
+
+					whos_turn = 1;
+				}
+
+
+
+			}
+
+		}
+
+
+
+		//after the game printing results
+
+		        
+		System.out.println("\n---------------------------------------------------------------------------");
+		System.out.println("\nThe game is over!\n\nHere's some info:\n");
+		System.out.println("\n---------------------------------------------------------------------------");
+		
+		if (player_1.number_of_alive_ships == 0){
+			System.out.println("\nThe winner is AI");
+			System.out.println("\nNumber of his shots: " + ai.num_of_shoots);
+		}
+		else{
+			System.out.println("\nThe winner is player 1");
+			System.out.println("\nNumber of his shots: " + player_1.num_of_shoots);
+		}
+		
 	}
 
 	
