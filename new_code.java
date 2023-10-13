@@ -266,10 +266,10 @@ class Game{
 			    	System.out.println(Arrays.toString(player_1.field_shoots[i]));
 				}
 
-				System.out.println("\nPlayer" + whos_turn + " , input  a row coordinate of the target ( 1 - 10): \n");
+				System.out.println("\nPlayer, input  a row coordinate of the target ( 1 - 10): \n");
 			    row_c = input.nextInt();
 
-				System.out.println("\nPlayer" + whos_turn + " , input  a col coordinate of the target ( 1 - 10): \n");
+				System.out.println("\nPlayer, input  a col coordinate of the target ( 1 - 10): \n");
 				col_c = input.nextInt();
 
 				check_shoot = checking_shot_cords(row_c - 1, col_c - 1);
@@ -298,6 +298,9 @@ class Game{
 					System.out.println("\n---------------------------------------------------------------------------");
 
 					ai.number_of_alive_ships = ai.number_of_alive_ships - 1;
+
+					ai.field[row_c - 1][col_c - 1] = 0;
+
 					player_1.num_of_shoots = player_1.num_of_shoots+ 1;
 
 				}
@@ -327,6 +330,9 @@ class Game{
 					System.out.println("\n---------------------------------------------------------------------------");
 
 					player_1.number_of_alive_ships = player_1.number_of_alive_ships - 1;
+
+					player_1.field[values[0]][values[1]] = 0;
+
 					ai.num_of_shoots = ai.num_of_shoots + 1;
 				}
 				else{
@@ -462,6 +468,8 @@ class Game{
 					System.out.println("\n---------------------------------------------------------------------------");
 
 					player_2.number_of_alive_ships = player_2.number_of_alive_ships - 1;
+
+					player_2.field[row_c - 1][col_c - 1] = 0;
 					player_1.num_of_shoots = player_1.num_of_shoots+ 1;
 
 				}
@@ -495,6 +503,8 @@ class Game{
 					System.out.println("\n---------------------------------------------------------------------------");
 
 					player_1.number_of_alive_ships = player_1.number_of_alive_ships - 1;
+
+					player_1.field[row_c - 1][col_c - 1] = 0;
 					player_2.num_of_shoots = player_2.num_of_shoots + 1;
 
 				}
