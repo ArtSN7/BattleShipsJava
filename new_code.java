@@ -240,7 +240,7 @@ class Game{
 		// player starts first, then AI shoots randomly until he won't shoot new point ( need to check shot_field )
 		// main code that do the game
         System.out.println("\n---------------------------------------------------------------------------");
-		System.out.println("\nWe are ready to start playing! Good luck players!\n\n");
+		System.out.println("\n\nWe are ready to start playing! Good luck player!\n\n");
 		System.out.println("\n---------------------------------------------------------------------------");
 
 
@@ -318,7 +318,7 @@ class Game{
 			}
 			else{ // AI is shooting
 
-				System.out.println("Now it's time for AI to have a shot! Be scared of power of random!");
+				System.out.println("\n\nNow it's time for AI to have a shot! Be scared of power of random!\n");
 
 				values = ai.DoShot(); // coords of ai shot
 
@@ -547,6 +547,7 @@ class Game{
 
 }
 
+
 class Player{
 
     int[][] field = new int[10][10];
@@ -691,6 +692,8 @@ class Player{
 	}
 
 }
+
+
 
 
 public class new_code{ // main part of the code
