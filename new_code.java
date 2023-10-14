@@ -458,7 +458,7 @@ class Game{
 
 			if (whos_turn == 1){
 
-				player_1.field_shoots[row_c - 1][col_c - 1] = 1;
+				player_1.field_shoots[row_c - 1][col_c - 1] = 1; // adding shot coords to the matrix
 
 				if (player_2.field[row_c - 1][col_c - 1] == 1){ // if user killed a ship
 
@@ -467,10 +467,10 @@ class Game{
 					System.out.println("\nYou have killed a ship! You have another try.");
 					System.out.println("\n---------------------------------------------------------------------------");
 
-					player_2.number_of_alive_ships = player_2.number_of_alive_ships - 1;
+					player_2.number_of_alive_ships = player_2.number_of_alive_ships - 1; // subtract 1 dead ship from player's alive ships
 
-					player_2.field[row_c - 1][col_c - 1] = 0;
-					player_1.num_of_shoots = player_1.num_of_shoots+ 1;
+					player_2.field[row_c - 1][col_c - 1] = 0; // delete dead shi from matrix
+					player_1.num_of_shoots = player_1.num_of_shoots+ 1; // add 1 to the number of shots
 
 				}
 				else{
@@ -493,19 +493,20 @@ class Game{
 			}
 			else{
 
-				player_2.field_shoots[row_c - 1][col_c - 1] = 1;
+				player_2.field_shoots[row_c - 1][col_c - 1] = 1; // adding shot coords to the matrix
 
 				if (player_1.field[row_c - 1][col_c - 1] == 1){ // if user killed a ship
 
+					// printing that he killed a ship
 					System.out.println("\n---------------------------------------------------------------------------");
 					System.out.println("\nBAAAAM!!!\n");
 					System.out.println("\nYou have killed a ship! You have another try.");
 					System.out.println("\n---------------------------------------------------------------------------");
 
-					player_1.number_of_alive_ships = player_1.number_of_alive_ships - 1;
+					player_1.number_of_alive_ships = player_1.number_of_alive_ships - 1; // subtract 1 dead ship from player's alive ships
 
-					player_1.field[row_c - 1][col_c - 1] = 0;
-					player_2.num_of_shoots = player_2.num_of_shoots + 1;
+					player_1.field[row_c - 1][col_c - 1] = 0; // delete dead shi from matrix
+					player_2.num_of_shoots = player_2.num_of_shoots + 1; // add 1 to the number of shots
 
 				}
 				else{
@@ -526,8 +527,7 @@ class Game{
 			}
 		}
 
-		//after the game printing results
-
+		//after the game, just printing results
 		        
 		System.out.println("\n---------------------------------------------------------------------------");
 		System.out.println("\nThe game is over!\n\nHere's some info:\n");
@@ -550,23 +550,23 @@ class Game{
 
 class Player{
 
-    int[][] field = new int[10][10];
+    int[][] field = new int[10][10]; // field with ships
 
-	int[][] field_shoots = new int[10][10];
+	int[][] field_shoots = new int[10][10]; // field of shots 
 
-    int num_of_shoots = 0;
+    int num_of_shoots = 0; // how many shots player did
 
-	int number_of_alive_ships = 5;
+	int number_of_alive_ships = 5; // amount of ships of the player in the matrix 
 
 
-    boolean checking_coords(int row , int col){
+    boolean checking_coords(int row , int col){ // checking coords of the ships ( if coords are in the matrix, if there are no ships around coords)
 
 		row = row - 1;
 		col = col - 1;
 
 		if (row >= 0 && row <= 9 && col >= 0 && col <= 9){ // limits of coords
 
-
+            // checking if there are any ships around the coords ( if not return true, else return false)
 			if (row == 0){
 				if (col == 0){
 					if (field[row][col] == 0 && field[row][col + 1] == 0 && field[row + 1][col] == 0 && field[row + 1][col + 1] == 0){
@@ -638,17 +638,17 @@ class Player{
 
     
     
-    void CreateFieldForPlayers(){
+    void CreateFieldForPlayers(){ // function which creates field for player 
 
 
 		int row, col;
 		boolean check; 
 
-		Scanner input = new Scanner(System.in);
+		Scanner input = new Scanner(System.in); // creating Scanner object for input
 
-		row = 0;
-		col = 0;
-		check = false;
+		row = 0; // just value for next row inputs
+		col = 0; // just value for next col inputs
+		check = false; // shows if coords are valid or not
 
 		System.out.println("\n\n\nNow we are going to put 5 ships to the field.");
 
@@ -657,17 +657,17 @@ class Player{
 		for (int i = 1; i <= 5; i++){ // asking coordinates for 5 ships
 
             System.out.println("\n\nInput row for the ship num " + i + ":");
-            row = input.nextInt();
+            row = input.nextInt(); // getting row coord
 
             System.out.println("\n\nInput col for the ship num " + i + ":");
-			col = input.nextInt();
+			col = input.nextInt(); // getting column coord
 
-			check = checking_coords(row, col);
+			check = checking_coords(row, col); // checking if coords are valid
 			
 			
 
 
-			while (check == false){
+			while (check == false){ // asking for valid coords until they are right
 
 				System.out.println("\n\nTry again, you've input wrong values!");
 
@@ -681,7 +681,7 @@ class Player{
 
 			}
 
-			field[row - 1][col - 1] = 1;
+			field[row - 1][col - 1] = 1; // adding ship to the field
 			
 
 
@@ -696,16 +696,16 @@ class Player{
 
 
 
-public class new_code{ // main part of the code
+public class new_code{ // main part of the code which starts the game
     public static void main(String[] args) {
 
-		int value;
+		int value; // type of game
 
-		Scanner input = new Scanner(System.in);
+		Scanner input = new Scanner(System.in); // creating object Scanner for inputting value ( type of game )
 
-        Game game = new Game();
+        Game game = new Game(); // creating object game 
 
-        game.printing_rules();
+        game.printing_rules(); // printing rules
 
 		System.out.println("\n\n---------------------------------------------------------------------------");
 		System.out.println("Input 1 if you want to play alone against AI   |     Input 2 if you want to play with a friend");
@@ -719,13 +719,13 @@ public class new_code{ // main part of the code
 			System.out.println(" ");
 			System.out.println("Input 1 if you want to play alone against AI   |     Input 2 if you want to play with a friend");
 
-			value = input.nextInt();
+			value = input.nextInt(); // if value is invalid, then we ask to input it again
 		}
 
-		if (value == 1){
+		if (value == 1){ // if value is 1 
 			game.game_against_ai(); // starting game with AI
 		}
-		else{
+		else{ // if value is 2
 			game.game_against_player(); // starting game with 2 player
 		}
 
