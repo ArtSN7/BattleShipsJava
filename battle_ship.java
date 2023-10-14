@@ -8,18 +8,18 @@ import java.util.Random;
 class AI{
 
 	    
-	int[][] field = new int[10][10];
+	int[][] field = new int[10][10]; // field with ships
 
-	int[][] field_shoots = new int[10][10];
+	int[][] field_shoots = new int[10][10]; // field with shots
 
-    int num_of_shoots = 0;
+    int num_of_shoots = 0; // number of shots
 
-	int number_of_alive_ships = 5;
+	int number_of_alive_ships = 5; // number of alive ship in matrix
 
 
-	boolean shot_check(int row, int col){
+	boolean shot_check(int row, int col){ // checking 
 
-		if (field_shoots[row][col] == 1){
+		if (field_shoots[row][col] == 1){ // if Ai has already done a shot to this coords return false, else true
 			return false;
 		}
 
@@ -34,14 +34,14 @@ class AI{
 		int col;
 		boolean check;
 
-		Random rand = new Random();
+		Random rand = new Random(); // creating object random
 
-		row = rand.nextInt(10);
-		col = rand.nextInt(10);
+		row = rand.nextInt(10); // creating random row coord
+		col = rand.nextInt(10); // creating random col coord
 
-		check = shot_check(row, col);
+		check = shot_check(row, col); // checking if this coords are used
 
-		while (check == false){
+		while (check == false){ // creating coords until they are being not used
 
 
 			row = rand.nextInt(10);
@@ -51,9 +51,9 @@ class AI{
 
 		}
 
-		field_shoots[row][col] = 1;
+		field_shoots[row][col] = 1; // adding shot to the matrix
 
-		int[] ret = {row, col};
+		int[] ret = {row, col}; // returning coords of the shot in order to check them in main code
 
 		return ret;
 
@@ -67,33 +67,33 @@ class AI{
 		int col;
 		boolean check;
 
-		Random rand = new Random();
+		Random rand = new Random(); // creating random object
 
-		for (int i = 0; i <= 4; i++){
+		for (int i = 0; i <= 4; i++){ // creating field for AI
 
-			row = rand.nextInt(10);
-			col = rand.nextInt(10);
+			row = rand.nextInt(10); // random row
+			col = rand.nextInt(10); // random col
 
-			check = checking_coords(row, col);
+			check = checking_coords(row, col); // checking coords 
 
-			while (check == false){
+			while (check == false){ // until coords are valid
 				row = rand.nextInt(10);
 				col = rand.nextInt(10);
 				check = checking_coords(row, col);
 			}
 
-			field[row][col] = 1;
+			field[row][col] = 1; // adding ship to the matrix
 		}
 
 	}
 
 
 
-	boolean checking_coords(int row , int col){
+	boolean checking_coords(int row , int col){ // just checking coords
 
 		if (row >= 0 && row <= 9 && col >= 0 && col <= 9){ // limits of coords
 
-
+            // checking if there are no ships
 			if (row == 0){
 				if (col == 0){
 					if (field[row][col] == 0 && field[row][col + 1] == 0 && field[row + 1][col] == 0 && field[row + 1][col + 1] == 0){
@@ -184,7 +184,7 @@ class Game{
 
     
 	
-	public static void printing_rules(){
+	public static void printing_rules(){ // printing rules before starting the game
 	    System.out.print("Dear players,\n\nI am happy to see you in my game! Here you can read rules:\n\n - Each of you has a 10*10 field where u can set up 5 ships\n\n - Every ship must be in a single cell\n\n - Players are shooting one after another, but if someone kills a ship, he has a chance to shoot one more time until he misses\n\n - Game finishes, when there are no ships on one of the field");
         
 	    System.out.println("\n\n---------------------------------------------------------------------------");
@@ -196,9 +196,9 @@ class Game{
 	
 	public static void game_against_ai(){ // game against AI ( when u play alone )
 
-		int whos_turn = 1;
+		int whos_turn = 1; // value that shows who shoots ( 1 - player, 2 - ai)
 
-		int[] values = {0, 0};
+		int[] values = {0, 0}; // coord of ai shot
 
 		//setting up a user stuff
 
@@ -229,14 +229,11 @@ class Game{
 		System.out.println("\nGive us a second...\n");
 		System.out.println("\n---------------------------------------------------------------------------");
 
-		AI ai = new AI();
+		AI ai = new AI(); //  creating AI object
 
 		ai.CreateFieldAI(); // creating field for AI
 
 		
-
-
-
 		// player starts first, then AI shoots randomly until he won't shoot new point ( need to check shot_field )
 		// main code that do the game
         System.out.println("\n---------------------------------------------------------------------------");
@@ -272,11 +269,11 @@ class Game{
 				System.out.println("\nPlayer, input  a col coordinate of the target ( 1 - 10): \n");
 				col_c = input.nextInt();
 
-				check_shoot = checking_shot_cords(row_c - 1, col_c - 1);
+				check_shoot = checking_shot_cords(row_c - 1, col_c - 1); // checking shot coords
 
 
 
-				while (check_shoot == false){
+				while (check_shoot == false){ // asking for coords until they valid
 					System.out.println("\n---------------------------------------------------------------------------");
 					System.out.println("Try again!");
 			    	System.out.println("\nPlayer" + whos_turn + " , input  a row coordinate of the target ( 1 - 10): \n");
@@ -288,7 +285,7 @@ class Game{
 
 				// checking results of shot
 
-				player_1.field_shoots[row_c - 1][col_c - 1] = 1;
+				player_1.field_shoots[row_c - 1][col_c - 1] = 1; // adding that these coords were used
 
 				if (ai.field[row_c - 1][col_c - 1] == 1){ // if user killed a ship
 
@@ -297,11 +294,11 @@ class Game{
 					System.out.println("\nYou have killed a ship! You have another try.");
 					System.out.println("\n---------------------------------------------------------------------------");
 
-					ai.number_of_alive_ships = ai.number_of_alive_ships - 1;
+					ai.number_of_alive_ships = ai.number_of_alive_ships - 1; // reducing number of alive ships
 
-					ai.field[row_c - 1][col_c - 1] = 0;
+					ai.field[row_c - 1][col_c - 1] = 0; // deleting dead ship from matrix
 
-					player_1.num_of_shoots = player_1.num_of_shoots+ 1;
+					player_1.num_of_shoots = player_1.num_of_shoots+ 1; // adding number of shots
 
 				}
 				else{
@@ -311,7 +308,7 @@ class Game{
 					System.out.println("\nYou have missed!");
 					System.out.println("\n---------------------------------------------------------------------------");
 
-					whos_turn = 2;
+					whos_turn = 2; // changing turn if user misses
 				}
 
 				// finishing checking result of the shot
@@ -329,11 +326,11 @@ class Game{
 					System.out.println("\nAI has killed a ship! He will shoot again.");
 					System.out.println("\n---------------------------------------------------------------------------");
 
-					player_1.number_of_alive_ships = player_1.number_of_alive_ships - 1;
+					player_1.number_of_alive_ships = player_1.number_of_alive_ships - 1; // reducing number of alive ships
 
-					player_1.field[values[0]][values[1]] = 0;
+					player_1.field[values[0]][values[1]] = 0; // deleting ship from matrix
 
-					ai.num_of_shoots = ai.num_of_shoots + 1;
+					ai.num_of_shoots = ai.num_of_shoots + 1; // adding number of shots
 				}
 				else{
 				    System.out.println("\n---------------------------------------------------------------------------");
@@ -341,7 +338,7 @@ class Game{
 					System.out.println("\nYou have missed!");
 					System.out.println("\n---------------------------------------------------------------------------");
 
-					whos_turn = 1;
+					whos_turn = 1; // chaning turn if ai misses
 				}
 
 
@@ -432,7 +429,7 @@ class Game{
 			System.out.println("This is your shots (1 means that u have tried this field.)");
 
 			for (int i = 0; i < 10; i++){
-			    System.out.println(Arrays.toString(player_1.field_shoots[i]));
+			    System.out.println(Arrays.toString(player_1.field_shoots[i])); 
 			}
 
 
@@ -481,10 +478,10 @@ class Game{
 					System.out.println("\n---------------------------------------------------------------------------");
 
 					if (whos_turn == 1){ // changing player
-						whos_turn = 2;
+						whos_turn = 2; // chaning turn if user misses
 					}
 					else{
-						whos_turn = 1;
+						whos_turn = 1; // chaning turn if user misses
 					}
 
 				}
@@ -516,10 +513,10 @@ class Game{
 					System.out.println("\n---------------------------------------------------------------------------");
 
 					if (whos_turn == 1){ // changing player
-						whos_turn = 2;
+						whos_turn = 2; // changin turn if user misses
 					}
 					else{
-						whos_turn = 1;
+						whos_turn = 1; // changing turn if user misses
 					}
 
 				}
@@ -696,7 +693,7 @@ class Player{
 
 
 
-public class new_code{ // main part of the code which starts the game
+public class battle_ship{ // main part of the code which starts the game
     public static void main(String[] args) {
 
 		int value; // type of game
