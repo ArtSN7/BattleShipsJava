@@ -275,7 +275,7 @@ class Game{
 
 				while (check_shoot == false){ // asking for coords until they valid
 					System.out.println("\n---------------------------------------------------------------------------");
-					System.out.println("Try again!");
+					System.out.println("Try again! You have input invalid coordinates!");
 			    	System.out.println("\nPlayer" + whos_turn + " , input  a row coordinate of the target ( 1 - 10): \n");
 			    	row_c = input.nextInt();
 			    	System.out.println("\nPlayer" + whos_turn + " , input  a col coordinate of the target ( 1 - 10): \n");
@@ -442,7 +442,7 @@ class Game{
 
 			while (check_shoot == false){
 				System.out.println("\n---------------------------------------------------------------------------");
-				System.out.println("Try again!");
+				System.out.println("Try again! You have input invalid coordinates!");
 			    System.out.println("\nPlayer" + whos_turn + " , input  a row coordinate of the target ( 1 - 10): \n");
 			    row_c = input.nextInt();
 			    System.out.println("\nPlayer" + whos_turn + " , input  a col coordinate of the target ( 1 - 10): \n");
@@ -653,10 +653,10 @@ class Player{
 
 		for (int i = 1; i <= 5; i++){ // asking coordinates for 5 ships
 
-            System.out.println("\n\nInput row for the ship num " + i + ":");
+            System.out.println("\n\nInput row for the ship number " + i + ":");
             row = input.nextInt(); // getting row coord
 
-            System.out.println("\n\nInput col for the ship num " + i + ":");
+            System.out.println("\n\nInput col for the ship number " + i + ":");
 			col = input.nextInt(); // getting column coord
 
 			check = checking_coords(row, col); // checking if coords are valid
@@ -666,11 +666,11 @@ class Player{
 
 			while (check == false){ // asking for valid coords until they are right
 
-				System.out.println("\n\nTry again, you've input wrong values!");
+				System.out.println("\n\nTry again, you've input wrong values! ( You need to input one integer from 1 to 10 )");
 
-		        System.out.println("\n\nInput row for the ship num " + i + ":");
+		        System.out.println("\n\nInput row for the ship number " + i + ":");
                 row = input.nextInt();
-                System.out.println("\n\nInput col for the ship num " + i + ":");
+                System.out.println("\n\nInput col for the ship number " + i + ":");
 				col = input.nextInt();
 
                 check = checking_coords(row, col);
@@ -712,7 +712,7 @@ public class battle_ship{ // main part of the code which starts the game
 		System.out.println("\n\n---------------------------------------------------------------------------");
 
 		while (value != 1 && value != 2){ // picks until value is 1 or 2
-			System.out.println("\n\nPlease, try again");
+			System.out.println("\n\nPlease, try again. You need to input 1 or 2");
 			System.out.println(" ");
 			System.out.println("Input 1 if you want to play alone against AI   |     Input 2 if you want to play with a friend");
 
